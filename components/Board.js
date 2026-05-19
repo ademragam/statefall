@@ -5,6 +5,8 @@ import { BOARD_SIZE, getCellType, isSamePosition } from "../data/board";
 import { getPiecePositions, getPiecesAtCell } from "../utils/gameLogic";
 import Cell from "./Cell";
 
+const BOARD_BORDER_WIDTH = 8;
+
 export default function Board({
   pieces,
   selectedPiece,
@@ -15,7 +17,8 @@ export default function Board({
   const { width, height } = useWindowDimensions();
   const maxFromHeight = Math.max(320, height - 118);
   const boardPixels = Math.min(width - 28, maxFromHeight, 590);
-  const cellSize = boardPixels / BOARD_SIZE;
+  const boardContentPixels = boardPixels - BOARD_BORDER_WIDTH * 2;
+  const cellSize = boardContentPixels / BOARD_SIZE;
   const selectedPositions = selectedPiece ? getPiecePositions(selectedPiece) : [];
 
   return (
@@ -65,7 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#5a432b",
     borderColor: "#4b3521",
     borderRadius: 8,
-    borderWidth: 8,
+    borderWidth: BOARD_BORDER_WIDTH,
     overflow: "hidden",
     shadowColor: "#2d251d",
     shadowOffset: { width: 0, height: 8 },

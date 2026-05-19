@@ -6,7 +6,7 @@ import { TEAM_THEME } from "../data/characters";
 export default function Piece({ marker, cellSize, isSelected }) {
   const { piece, isGhost, optionIndex } = marker;
   const theme = TEAM_THEME[piece.team];
-  const size = Math.max(25, cellSize * 0.64);
+  const size = Math.max(24, cellSize * 0.58);
 
   return (
     <View
@@ -68,11 +68,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#f8f1df",
     borderRadius: 8,
-    bottom: -4,
+    bottom: -2,
     minWidth: 16,
     paddingHorizontal: 4,
     position: "absolute",
-    right: -5
+    right: -3
   },
   statText: {
     color: "#33291f",
