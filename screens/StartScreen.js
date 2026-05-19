@@ -10,7 +10,7 @@ export default function StartScreen({ onStart }) {
       <View style={styles.table}>
         <View style={styles.header}>
           <Text style={styles.kicker}>Physik-Basiskurs Klasse 12</Text>
-          <Text style={styles.title}>Quantum Rift Board</Text>
+          <Text style={styles.title}>Statefall</Text>
           <Text style={styles.subtitle}>
             Ein rundenbasiertes Strategie-Spiel mit Holzbrett-Gefuehl:
             drei Figuren pro Team, klare Regeln und Quantenmechaniken, die

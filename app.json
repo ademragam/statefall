@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Quantum Rift Board",
-    "slug": "quantum-rift-board",
+    "name": "Statefall",
+    "slug": "statefall",
     "version": "1.0.0",
     "orientation": "default",
     "userInterfaceStyle": "light",

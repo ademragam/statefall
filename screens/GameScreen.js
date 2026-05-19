@@ -733,7 +733,7 @@ export default function GameScreen({ onRestart, onBackToStart }) {
     <ScrollView contentContainerStyle={styles.scrollContent}>
       <View style={styles.screenHeader}>
         <View>
-          <Text style={styles.kicker}>Quantum Rift Board</Text>
+          <Text style={styles.kicker}>Statefall</Text>
           <Text style={styles.title}>Rundenbasierter Prototyp</Text>
         </View>
         <View style={styles.headerActions}>

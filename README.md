@@ -1,4 +1,4 @@
-# Quantum Rift Board
+# Statefall
 
 Ein kleiner React-Native/Expo-Prototyp fuer ein rundenbasiertes Strategiespiel
 mit Quantenphysik-Regeln. Das Spiel ist bewusst einfach gehalten, damit es auch
