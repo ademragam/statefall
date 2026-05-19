@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "Quantum Rift Board",
+    "slug": "quantum-rift-board",
+    "version": "1.0.0",
+    "orientation": "default",
+    "userInterfaceStyle": "light",
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
