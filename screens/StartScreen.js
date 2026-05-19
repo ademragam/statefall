@@ -1,17 +1,37 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View
+} from "react-native";
 import * as Lucide from "lucide-react-native";
 
 export default function StartScreen({ onStart }) {
   const PlayIcon = Lucide.Play ?? Lucide.Check;
+  const { width, height } = useWindowDimensions();
+  const isCompact = width < 640;
+  const previewCellSize = Math.max(
+    18,
+    Math.min(isCompact ? 25 : 28, (width - 116) / 8, (height - 260) / 8)
+  );
 
   return (
-    <View style={styles.screen}>
-      <View style={styles.table}>
+    <ScrollView
+      contentContainerStyle={[
+        styles.screen,
+        isCompact && styles.screenCompact
+      ]}
+    >
+      <View style={[styles.table, isCompact && styles.tableCompact]}>
         <View style={styles.header}>
           <Text style={styles.kicker}>Physik-Basiskurs Klasse 12</Text>
-          <Text style={styles.title}>Statefall</Text>
-          <Text style={styles.subtitle}>
+          <Text style={[styles.title, isCompact && styles.titleCompact]}>
+            Statefall
+          </Text>
+          <Text style={[styles.subtitle, isCompact && styles.subtitleCompact]}>
             Ein rundenbasiertes Strategie-Spiel mit Holzbrett-Gefuehl:
             drei Figuren pro Team, klare Regeln und Quantenmechaniken, die
             wirklich in Entscheidungen eingreifen.
@@ -37,6 +57,10 @@ export default function StartScreen({ onStart }) {
                     key={`${row}-${col}`}
                     style={[
                       styles.previewCell,
+                      {
+                        height: previewCellSize,
+                        width: previewCellSize
+                      },
                       isBase && styles.previewBase,
                       isStone && styles.previewStone,
                       isQuantum && styles.previewQuantum
@@ -48,7 +72,7 @@ export default function StartScreen({ onStart }) {
           ))}
         </View>
 
-        <View style={styles.ruleGrid}>
+        <View style={[styles.ruleGrid, isCompact && styles.ruleGridCompact]}>
           <View style={styles.ruleBox}>
             <Text style={styles.ruleTitle}>Ziel</Text>
             <Text style={styles.ruleText}>
@@ -75,6 +99,7 @@ export default function StartScreen({ onStart }) {
           onPress={onStart}
           style={({ pressed }) => [
             styles.startButton,
+            isCompact && styles.startButtonCompact,
             pressed && { transform: [{ scale: 0.99 }] }
           ]}
         >
@@ -82,7 +107,7 @@ export default function StartScreen({ onStart }) {
           <Text style={styles.startText}>Prototyp starten</Text>
         </Pressable>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -90,9 +115,13 @@ const styles = StyleSheet.create({
   screen: {
     alignItems: "center",
     backgroundColor: "#e8deca",
-    flex: 1,
+    flexGrow: 1,
     justifyContent: "center",
     padding: 20
+  },
+  screenCompact: {
+    justifyContent: "flex-start",
+    padding: 10
   },
   table: {
     backgroundColor: "#f5eddd",
@@ -106,6 +135,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 18,
     width: "100%"
+  },
+  tableCompact: {
+    padding: 14
   },
   header: {
     maxWidth: 720
@@ -125,11 +157,19 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     lineHeight: 50
   },
+  titleCompact: {
+    fontSize: 40,
+    lineHeight: 45
+  },
   subtitle: {
     color: "#5c4e3f",
     fontSize: 16,
     lineHeight: 24,
     marginTop: 10
+  },
+  subtitleCompact: {
+    fontSize: 15,
+    lineHeight: 23
   },
   previewBoard: {
     alignSelf: "center",
@@ -146,9 +186,7 @@ const styles = StyleSheet.create({
   previewCell: {
     backgroundColor: "#cfb98e",
     borderColor: "rgba(70, 52, 33, 0.25)",
-    borderWidth: 1,
-    height: 28,
-    width: 28
+    borderWidth: 1
   },
   previewBase: {
     backgroundColor: "#bcae9a"
@@ -163,6 +201,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 12
+  },
+  ruleGridCompact: {
+    gap: 10
   },
   ruleBox: {
     backgroundColor: "#efe4d1",
@@ -193,6 +234,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     minHeight: 46,
     paddingHorizontal: 18
+  },
+  startButtonCompact: {
+    alignSelf: "stretch",
+    justifyContent: "center"
   },
   startText: {
     color: "#fffaf0",
