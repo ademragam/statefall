@@ -42,13 +42,18 @@ function PieceRow({ piece }) {
   );
 }
 
-export default function InfoPanel({ game, selectedPiece, selectedAction }) {
+export default function InfoPanel({
+  game,
+  selectedPiece,
+  selectedAction,
+  compact = false
+}) {
   const activeAbility =
     selectedAction && ABILITIES[selectedAction] ? ABILITIES[selectedAction] : null;
   const selectedTheme = selectedPiece ? TEAM_THEME[selectedPiece.team] : null;
 
   return (
-    <View style={styles.panel}>
+    <View style={[styles.panel, compact && styles.panelCompact]}>
       <View style={styles.topStats}>
         <View style={styles.statBox}>
           <Text style={styles.statLabel}>Team</Text>
@@ -123,7 +128,7 @@ export default function InfoPanel({ game, selectedPiece, selectedAction }) {
         </Text>
       </View>
 
-      <View style={styles.teamListGrid}>
+      <View style={[styles.teamListGrid, compact && styles.teamListGridCompact]}>
         <View style={styles.teamList}>
           <Text style={styles.sectionTitle}>Team A</Text>
           {game.pieces
@@ -162,6 +167,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     gap: 12,
     padding: 14
+  },
+  panelCompact: {
+    padding: 10
   },
   topStats: {
     flexDirection: "row",
@@ -292,6 +300,10 @@ const styles = StyleSheet.create({
   teamListGrid: {
     flexDirection: "row",
     gap: 10
+  },
+  teamListGridCompact: {
+    flexDirection: "column",
+    gap: 4
   },
   teamList: {
     flex: 1

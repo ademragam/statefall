@@ -15,8 +15,13 @@ export default function Board({
   alignTop = false
 }) {
   const { width, height } = useWindowDimensions();
-  const maxFromHeight = Math.max(320, height - 118);
-  const boardPixels = Math.min(width - 28, maxFromHeight, 590);
+  const availableWidth = Math.max(280, width - (width < 640 ? 20 : 28));
+  const availableHeight = alignTop
+    ? Math.max(320, height - 118)
+    : height < 560
+      ? Math.max(280, height - 96)
+      : 590;
+  const boardPixels = Math.min(availableWidth, availableHeight, 590);
   const boardContentPixels = boardPixels - BOARD_BORDER_WIDTH * 2;
   const cellSize = boardContentPixels / BOARD_SIZE;
   const selectedPositions = selectedPiece ? getPiecePositions(selectedPiece) : [];

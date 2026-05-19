@@ -229,7 +229,8 @@ function firstAlivePieceId(pieces, team) {
 export default function GameScreen({ onRestart, onBackToStart }) {
   const [game, setGame] = useState(createInitialGame);
   const { width } = useWindowDimensions();
-  const isWide = width >= 980;
+  const isCompact = width < 700;
+  const isWide = width >= 1020;
   const selectedPiece = getPieceById(game.pieces, game.selectedPieceId);
 
   const highlightedPositions = useMemo(() => {
@@ -730,11 +731,18 @@ export default function GameScreen({ onRestart, onBackToStart }) {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContent}>
-      <View style={styles.screenHeader}>
-        <View>
+    <ScrollView
+      contentContainerStyle={[
+        styles.scrollContent,
+        isCompact && styles.scrollContentCompact
+      ]}
+    >
+      <View style={[styles.screenHeader, isCompact && styles.screenHeaderCompact]}>
+        <View style={styles.titleWrap}>
           <Text style={styles.kicker}>Statefall</Text>
-          <Text style={styles.title}>Rundenbasierter Prototyp</Text>
+          <Text style={[styles.title, isCompact && styles.titleCompact]}>
+            Rundenbasierter Prototyp
+          </Text>
         </View>
         <View style={styles.headerActions}>
           <Pressable onPress={onBackToStart} style={styles.secondaryButton}>
@@ -768,6 +776,7 @@ export default function GameScreen({ onRestart, onBackToStart }) {
             movedThisTurn={game.movedThisTurn}
             actedThisTurn={game.actedThisTurn}
             gameOver={Boolean(game.gameOver)}
+            compact={isCompact}
             onActionPress={handleActionPress}
             onEndTurn={endTurn}
           />
@@ -775,6 +784,7 @@ export default function GameScreen({ onRestart, onBackToStart }) {
             game={game}
             selectedPiece={selectedPiece}
             selectedAction={game.selectedAction}
+            compact={isCompact}
           />
         </View>
       </View>
@@ -788,11 +798,22 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 16
   },
+  scrollContentCompact: {
+    padding: 10
+  },
   screenHeader: {
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 14
+  },
+  screenHeaderCompact: {
+    alignItems: "flex-start",
+    gap: 10
+  },
+  titleWrap: {
+    flex: 1,
+    minWidth: 0
   },
   kicker: {
     color: "#756550",
@@ -808,8 +829,13 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     lineHeight: 31
   },
+  titleCompact: {
+    fontSize: 22,
+    lineHeight: 27
+  },
   headerActions: {
     flexDirection: "row",
+    flexShrink: 0,
     gap: 8
   },
   secondaryButton: {
@@ -852,7 +878,8 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   sideColumn: {
-    gap: 14
+    gap: 14,
+    minWidth: 0
   },
   sideColumnWide: {
     flex: 1,

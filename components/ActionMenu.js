@@ -9,13 +9,14 @@ function Icon({ name, color }) {
   return <IconComponent color={color} size={18} strokeWidth={2.25} />;
 }
 
-function ActionButton({ action, active, disabled, onPress }) {
+function ActionButton({ action, active, compact, disabled, onPress }) {
   return (
     <Pressable
       disabled={disabled}
       onPress={onPress}
       style={({ pressed }) => [
         styles.actionButton,
+        compact && styles.actionButtonCompact,
         active && styles.activeButton,
         disabled && styles.disabledButton,
         pressed && !disabled && styles.pressedButton
@@ -28,6 +29,7 @@ function ActionButton({ action, active, disabled, onPress }) {
       <Text
         style={[
           styles.actionLabel,
+          compact && styles.actionLabelCompact,
           active && styles.activeLabel,
           disabled && styles.disabledLabel
         ]}
@@ -46,7 +48,8 @@ export default function ActionMenu({
   actedThisTurn,
   onActionPress,
   onEndTurn,
-  gameOver
+  gameOver,
+  compact = false
 }) {
   const noPiece = !selectedPiece || selectedPiece.hp <= 0;
   const actionLocked = gameOver || noPiece || actedThisTurn;
@@ -133,11 +136,11 @@ export default function ActionMenu({
           };
 
   return (
-    <View style={styles.panel}>
-      <View style={styles.headerRow}>
+    <View style={[styles.panel, compact && styles.panelCompact]}>
+      <View style={[styles.headerRow, compact && styles.headerRowCompact]}>
         <View>
           <Text style={styles.eyebrow}>Aktionsmenue</Text>
-          <Text style={styles.title}>
+          <Text style={[styles.title, compact && styles.titleCompact]}>
             {selectedPiece ? selectedPiece.role : "Figur waehlen"}
           </Text>
         </View>
@@ -146,6 +149,7 @@ export default function ActionMenu({
           disabled={gameOver}
           style={({ pressed }) => [
             styles.endTurnButton,
+            compact && styles.endTurnButtonCompact,
             pressed && !gameOver && styles.pressedButton,
             gameOver && styles.disabledButton
           ]}
@@ -161,13 +165,14 @@ export default function ActionMenu({
             key={action.key}
             action={action}
             active={selectedAction === action.key}
+            compact={compact}
             disabled={action.disabled}
             onPress={() => onActionPress(action.key)}
           />
         ))}
       </View>
 
-      <View style={styles.explainBox}>
+      <View style={[styles.explainBox, compact && styles.explainBoxCompact]}>
         <Text style={styles.explainTitle}>{activeCopy.label}</Text>
         <Text style={styles.explainText}>{activeCopy.short}</Text>
         <Text style={styles.physicsText}>{activeCopy.physics}</Text>
@@ -189,11 +194,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.12,
     shadowRadius: 8
   },
+  panelCompact: {
+    padding: 10
+  },
   headerRow: {
     alignItems: "center",
     flexDirection: "row",
     gap: 12,
     justifyContent: "space-between"
+  },
+  headerRowCompact: {
+    alignItems: "flex-start",
+    flexWrap: "wrap"
   },
   eyebrow: {
     color: "#7a6a56",
@@ -208,6 +220,9 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     letterSpacing: 0
   },
+  titleCompact: {
+    fontSize: 18
+  },
   endTurnButton: {
     alignItems: "center",
     backgroundColor: "#5d4632",
@@ -216,6 +231,11 @@ const styles = StyleSheet.create({
     gap: 7,
     minHeight: 40,
     paddingHorizontal: 12
+  },
+  endTurnButtonCompact: {
+    justifyContent: "center",
+    minHeight: 38,
+    paddingHorizontal: 10
   },
   endTurnText: {
     color: "#fffaf0",
@@ -235,9 +255,17 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     borderWidth: 1,
     flexDirection: "row",
+    flexShrink: 1,
     gap: 6,
     minHeight: 40,
     paddingHorizontal: 10
+  },
+  actionButtonCompact: {
+    flexBasis: "47%",
+    flexGrow: 1,
+    justifyContent: "center",
+    minHeight: 42,
+    paddingHorizontal: 7
   },
   activeButton: {
     backgroundColor: "#5d4632",
@@ -256,6 +284,9 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     letterSpacing: 0
   },
+  actionLabelCompact: {
+    fontSize: 12
+  },
   activeLabel: {
     color: "#fffaf0"
   },
@@ -272,6 +303,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#ebe0cb",
     borderRadius: 6,
     padding: 12
+  },
+  explainBoxCompact: {
+    padding: 10
   },
   explainTitle: {
     color: "#2f261d",
