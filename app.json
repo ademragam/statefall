@@ -5,6 +5,9 @@
     "version": "1.0.0",
     "orientation": "default",
     "userInterfaceStyle": "light",
+    "experiments": {
+      "baseUrl": "/statefall"
+    },
     "web": {
       "bundler": "metro"
     }
